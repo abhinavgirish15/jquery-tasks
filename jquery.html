@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>jquery</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="style.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+</head>
+
+<body>
+
+    <div class="jquery d-flex ">
+        <div class="row d-flex justify-content-around m-5">
+
+            <button id="openModalBtn">Enter Heading</button>
+            <button id="openModalBtn2">Enter Sub-Heading</button>
+            <button id="openModalBtn3">Open form</button>
+
+        </div>
+        <div id="myModal" class="modal">
+            <div class="modal-content">
+                <span class="close-myModal">&times;</span>
+                <h2>Enter Heading</h2>
+                <input type="text" id="headingInput" placeholder="Enter heading">
+                <button type="submit" id="saveHeadingBtn">Save Heading</button>
+            </div>
+        </div>
+
+        <div id="SubHeadModel" class="modal">
+            <div class="modal-content">
+                <span class="close-SubHeadModel">&times;</span>
+                <h2>Select Sub Heading</h2>
+
+                <select id="subHeadingSelect">
+                    <option value=""></option>
+                </select>
+                <input type="text" id="SubHeadingInput" placeholder="Enter Sub heading">
+
+                <button id="saveSubHeading">Save selection</button>
+            </div>
+        </div>
+
+        <div id="RadioModel" class="modal">
+            <div class="modal-content">
+                <span class="close-RadioModel">&times;</span>
+                <h6>Select Heading</h6>
+
+                <select id="HeadingSelectform">Select Heading
+                    <option value=""></option>
+                </select>
+                <h6>Select sub-heading</h6>
+
+                <select id="subHeadingSelectform">
+                    <option value=""></option>
+                </select>
+                <select id="form-type">
+                    <!-- <option value="">Select type of field </option> -->
+
+                    <option value="Text">Text</option>
+                    <option value="TextArea">TextArea</option>
+                    <option value="Email">Email</option>
+                    <option value="password">password</option>
+                    <option value="Date">Date</option>
+                    <option value="Time">Time</option>
+                    <option value="File">File upload</option>
+                    <option value="Number">Number</option>
+                    <option value="Number">Contact Number</option>
+                    <option value="Search">Search</option>
+                    <option value="URL">URL</option>
+                    <option value="Color">Color</option>
+                    <option value="Range">Range</option>
+                    <option value="Radio">Radio</option>
+                    <option value="CheckBox">CheckBox</option>
+                    <option value="Select">Select</option>
+                    <option value="Button">Button</option>
+
+                </select>
+                <div class="form">
+                    <label for="flabel">Enter Field label:</label>
+                    <input type="text" id="flabel" placeholder="Enter Field label">
+                    <label for="fclass">Enter Field class:</label>
+                    <input type="text" id="fclass" placeholder="Enter Field class">
+                    <label for="fvalue">Enter value for Field :</label>
+                    <input type="text" id="fvalue" placeholder="Enter value for Field">
+                    <label for="fplaceholder">Enter placeholder:</label>
+                    <input type="text" id="fplaceholder" placeholder="Enter Field placeholder">
+                </div>
+                <h6>Select Radio</h6>
+                <div>
+
+                <input type="checkbox" id="disabled" name="disabled" value="">
+                <label for="disable">Disable</label><br>
+                <input type="checkbox" id="required" name="required" value="">
+                <label for="required">Required</label><br>
+                <input type="checkbox" id="readonly" name="readonly" value="">
+                <label for="required">Read Only</label><br>
+                </div>
+                <button id="saveselection">Save selection</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- <section>
+        <div>
+
+            <h2 id="displayHeading"></h2>
+            <div>
+                <h5 class="subhead p-3" id="displaySubHeading">
+                    
+                <span id="input-container"></span>
+            </h5>
+            </div>
+        </div>
+
+    </section> -->
+
+    <main>
+    </main>
+
+    <script>
+        
+        $(document).ready(function() {
+            // $('body').on('load',function(){
+            //     var headingText = localStorage.getItem("headingText");
+            // })
+            $('#openModalBtn').on('click', function() {
+                $('#myModal').show();
+            });
+            $('#openModalBtn2').on('click', function() {
+                $('#SubHeadModel').show();
+                // updateSubHeadingSelect();
+            });
+            $('#openModalBtn3').on('click', function() {
+                $('#RadioModel').show();
+            });
+            $('.close-myModal').on('click', function() {
+                $('#myModal').hide();
+            });
+            $('.close-SubHeadModel').on('click', function() {
+                $('#SubHeadModel').hide();
+            });
+            $('.close-RadioModel').on('click', function() {
+                $('#RadioModel').hide();
+            });
+            $('#saveHeadingBtn').on('click', function () {
+                var headingText = $('#headingInput').val();
+                localStorage.setItem("headingText", headingText.value);
+
+                $('main').append('<section><h1>' + headingText + '</h1><button class="delete" id="dele">Delete</button></section>');
+                $('#subHeadingSelect option').remove();
+                $('#HeadingSelectform option').remove();
+
+                console.log(headingText);
+                $('#subHeadingSelect').append('<option selected disabled>Choose Heading</option>');
+                $('#HeadingSelectform').append('<option selected disabled>Choose Heading</option>');
+                $('main section h1').each(function (index, value) {
+                    console.log(index, value);
+                    $('#subHeadingSelect').append(
+                        `<option value="${index + 1}">${$(this).text()}</option>`);
+                    $('#HeadingSelectform').append(
+                        `<option value="${index + 1}">${$(this).text()}</option>`);
+                });
+                $('#myModal').hide();
+                
+
+                $('main section .delete').on('click', function () {
+                var headingDelete = $(this).prev('h1').text();
+                $(this).parent('section').remove();
+                console.log(headingDelete );
+                        
+                });
+            });
+
+            $('#saveSubHeading').on('click', function() {
+                var SelectedHeading = $('#subHeadingSelect').find(":selected").val();
+                var SubHeadingText = $('#SubHeadingInput').val();
+                $(`main section:nth-child(${SelectedHeading})`).append('<div><h5>' + SubHeadingText +
+                    '</h5><button class="delete" id="dele">Delete</button></div>');
+                $('#SubHeadModel').hide();
+
+                $('main div .delete').on('click', function () {
+                var subheadingDelete = $(this).prev('h5').text();
+                $(this).parent('div').remove();
+                console.log(subheadingDelete );
+            });
+        });
+
+            $('#HeadingSelectform').change(function() {
+                var SelectedHeading = $(this).val();
+                $('#subHeadingSelectform').empty();
+                $('#subHeadingSelectform').append('<option selected disabled>Choose Heading</option>');
+                $(`main section:nth-child(${SelectedHeading}) h5`).each(function(index, value) {
+                    $('#subHeadingSelectform').append(
+                        `<option value="${index + 1}">${$(this).text()}</option>`);
+                });
+            });
+            // $('#disabled').change(function () {
+                
+            // });
+
+            $('#saveselection').on('click', function() {
+                var selectedSubHeading = Number($('#subHeadingSelectform').find(":selected").val()) + 1
+                var selectedType = $('#form-type').val();
+                var flabel =$('#flabel').val();
+                var fclass =$('#fclass').val();
+                var fvalue =$('#fvalue').val();
+                var fplaceholder =$('#fplaceholder').val();
+                // var disabled =$('#disabled').val();
+                // var required =$('#required').val();
+                // var readonly =$('#readonly').val();
+                
+                
+                // $('#subHeadingSelect').append(
+                //     `<option value="${selectedSubHeading}">${selectedSubHeading}</option>`);
+                var inputField = '';
+                var label =  '';
+                var disabled ='';
+                var required ='';
+                var readonly ='';
+
+                if ($('#disabled').is(':checked')) {
+                    
+                    disabled = 'disabled'
+                };
+                if ($(this).is(':checked') == false) {
+                    $('#disabled').val(' ');
+                };
+
+                if ($('#required').is(':checked')) {
+                    
+                    required = 'required'
+                };
+                if ($(this).is(':checked') == false) {
+                    $('#required').val(' ');
+                };
+
+                if ($('#readonly').is(':checked')) {
+                    
+                    readonly = 'readonly'
+                };
+                if ($(this).is(':checked') == false) {
+                    $('#readonly').val(' ');
+                };
+                
+                if (selectedType) {
+                    
+                   label = `<label for="${flabel}">${flabel}</label>`
+                   inputField = `<input type="${selectedType}" class="${fclass}" value="${fvalue}" placeholder="${fplaceholder}"  ${disabled} ${readonly} ${required}>`;
+                }
+                var sectionIndex = Number($('#HeadingSelectform').find(":selected").val()) 
+                console.log(selectedSubHeading,sectionIndex);
+                $(`main section:nth-child(${sectionIndex}) div:nth-child(${selectedSubHeading})`).append('<span>' + label + inputField + '</span><button class="delete" id="dele">Delete</button>');
+
+                
+                $('#RadioModel').hide();
+
+
+                $('main div .delete').on('click', function () {
+                var IFDelete = $(this).prev('span').inputField();
+                $(this).closest('div').remove();
+                console.log(IFDelete );
+                });
+
+
+                console.log(inputField);
+            });
+        });
+    </script>
+
+</body>
+
+</html>
